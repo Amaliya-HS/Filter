@@ -2,7 +2,7 @@ dlib
 Flask
 imutils
 numpy
-opencv-python
+opencv-python-headless
 scipy
 
 
