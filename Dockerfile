@@ -8,6 +8,4 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-ENV PORT 5000
-
-CMD python app.py runserver 0.0.0.0:$PORT
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
