@@ -4,5 +4,3 @@ imutils
 numpy
 opencv-contrib-python
 scipy
-math
-
