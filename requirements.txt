@@ -4,4 +4,4 @@ imutils
 numpy
 opencv-python
 scipy
-libgl1
+ffmpeg libsm6 libxext6  -y
