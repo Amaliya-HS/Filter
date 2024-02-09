@@ -1,7 +1,7 @@
 ﻿blinker==1.7.0
 click==8.1.7
 colorama==0.4.6
-dlib @ file:///dlib-19.19.0-cp38-cp38-win_amd64.whl
+dlib-19.19.0-cp38-cp38-win_amd64.whl
 Flask==3.0.2
 importlib-metadata==7.0.1
 imutils==0.5.4
