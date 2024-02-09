@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-
+import pyvirtualcam
 
 def lerp(a, b, c):
     return int((c * a) + ((1 - c) * b))
@@ -108,13 +108,13 @@ faceCascade = cv2.CascadeClassifier(CASC_PATH)
 
 class VideoCameraTiga(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(0)
+        self.video = pyvirtualcam.Camera(width=640, height=480, fps=30)
         
     def __del__(self):
         self.video.release()
         
     def get_frame(self):
-        ret, img = self.video.read()
+        ret, img = self.video.read(return_rgb=True)
 
         box = BoundingBox(-1, -1, -1, -1)
 
