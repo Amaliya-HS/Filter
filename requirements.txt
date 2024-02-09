@@ -2,5 +2,5 @@ dlib
 Flask
 imutils
 numpy
-opencv-contrib-python
+python3-opencv
 scipy
