@@ -2,5 +2,6 @@ dlib
 Flask
 imutils
 numpy
-python3-opencv
+opencv-python
 scipy
+libgl1
