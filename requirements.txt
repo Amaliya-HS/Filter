@@ -5,4 +5,4 @@ numpy
 opencv-python-headless
 scipy
 pyvirtualcam
-uvicorn
+gunicorn
