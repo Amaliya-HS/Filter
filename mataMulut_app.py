@@ -2,9 +2,7 @@ import cv2
 import dlib
 from scipy.spatial import distance as dist
 from imutils import face_utils
-
-video = cv2.VideoCapture(0)
-
+import pyvirtualcam
 
 model = "shape_predictor_68_face_landmarks.dat"
 predictor = dlib.shape_predictor(model)
@@ -28,13 +26,13 @@ def smile(mouth):
 
 class VideoCameraDua(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(0)
+        self.video = pyvirtualcam.Camera(width=640, height=480, fps=30)
         
     def __del__(self):
         self.video.release()
         
     def get_frame(self):
-        ret, image = self.video.read()
+        ret, image = self.video.read(return_rgb=True)
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = detector(gray, 0)
