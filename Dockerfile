@@ -8,4 +8,4 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "$port"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "$PORT"]
