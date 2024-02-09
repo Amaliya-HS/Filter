@@ -2,6 +2,5 @@ dlib
 Flask
 imutils
 numpy
-opencv-python
+opencv-python-headless
 scipy
-ffmpeg libsm6 libxext6  -y
