@@ -3,7 +3,6 @@ import cv2
 import math
 import dlib
 from imutils import face_utils, rotate_bound
-import pyvirtualcam
 
 def draw_sprite(frame, sprite, x_offset, y_offset):
     (h, w) = (sprite.shape[0], sprite.shape[1])
@@ -73,13 +72,13 @@ def get_face_boundbox(points, face_part):
 
 class VideoCameraSatu(object):
     def __init__(self):
-        self.video = pyvirtualcam.Camera(width=640, height=480, fps=30)
+        self.video = cv2.VideoCapture(0)
         
     def __del__(self):
         self.video.release()
         
     def get_frame(self):
-        ret, image = self.video.read(return_rgb=True)
+        ret, image = self.video.read()
 
         print("[INFO] loading facial landmark predictor...")
         model = "shape_predictor_68_face_landmarks.dat"
