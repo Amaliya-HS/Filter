@@ -5,7 +5,6 @@ import pyvirtualcam
 def lerp(a, b, c):
     return int((c * a) + ((1 - c) * b))
 
-
 def largestBox(boxes):
     lrg_width = 0
     lrg_box = None
