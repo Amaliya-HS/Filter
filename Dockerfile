@@ -8,4 +8,4 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD ["gunicorn", "main:app"]
+CMD ["gunicorn", "app:app"]
