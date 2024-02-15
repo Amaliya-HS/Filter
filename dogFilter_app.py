@@ -72,11 +72,11 @@ def get_face_boundbox(points, face_part):
     return (x, y, w, h)
 
 class VideoCameraSatu(object):
-    def __init__(self, ipCamera):
-        self.video = cv2.VideoCapture(ipCamera)
-        
+    def __init__(self, ip_camera):
+        self.video = VideoStream(src=ip_camera).start()
+
     def __del__(self):
-        self.video.release()
+        self.video.stop()
         
     def get_frame(self):
         image = self.video.read()
