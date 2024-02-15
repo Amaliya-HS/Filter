@@ -64,7 +64,9 @@ def index1():
 
 @app.route('/fungsiSatu.html')
 def index2():
-    return render_template('fungsiSatu.html')
+    camera_ip = request.remote_addr
+    camera_port = request.environ.get('REMOTE_PORT')
+    return render_template('fungsiSatu.html', camera_ip=camera_ip, camera_port=camera_port)
 
 @app.route('/fungsiDua.html')
 def openkamera2():
