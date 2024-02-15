@@ -20,13 +20,7 @@
   </head>
   <body>
     <h1>Filter Dog Face</h1>
-    <style>
-      div {
-        background-image: url("../img/cta-bg.jpg");
-      }
-    </style>
-    <video autoplay="true" id="video-webcam"></video>
-    <div id="camera-info"></div>
+     <div id="camera-info"></div>
     <script>
         // Menampilkan informasi kamera pada halaman HTML
         document.getElementById('camera-info').innerHTML = `
@@ -34,6 +28,12 @@
             <p>Camera Port: {{ camera_port }}</p>
         `;
     </script>
+    <style>
+      div {
+        background-image: url("../img/cta-bg.jpg");
+      }
+    </style>
+    <video autoplay="true" id="video-webcam"></video>
     <script type="text/javascript">
         var video = document.querySelector("#video-webcam");
 
