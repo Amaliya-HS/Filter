@@ -3,7 +3,7 @@ import cv2
 import math
 import dlib
 from imutils import face_utils, rotate_bound
-import pyvirtualcam
+from imutils.video import VideoStream
 
 def draw_sprite(frame, sprite, x_offset, y_offset):
     (h, w) = (sprite.shape[0], sprite.shape[1])
@@ -73,46 +73,38 @@ def get_face_boundbox(points, face_part):
 
 class VideoCameraSatu(object):
     def __init__(self):
-        self.video = pyvirtualcam.Camera(width=640, height=480, fps=30)
+        self.video = VideoStream(src=0).start()
         
     def __del__(self):
-        self.video.close()
+        self.video.stop()
         
     def get_frame(self):
-        with self.virtual_cam as cam:
-            ret, image = self.video.read(return_rgb=True)
+        ret, image = self.video.read()
     
-            print("[INFO] loading facial landmark predictor...")
-            model = "shape_predictor_68_face_landmarks.dat"
-            predictor = dlib.shape_predictor(model)
+        print("[INFO] loading facial landmark predictor...")
+        model = "shape_predictor_68_face_landmarks.dat"
+        predictor = dlib.shape_predictor(model)
     
-            detector = dlib.get_frontal_face_detector()
+        detector = dlib.get_frontal_face_detector()
                 
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            faces = detector(gray, 0)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        faces = detector(gray, 0)
     
-            for face in faces:
-                (x, y, w, h) = (face.left(), face.top(), face.width(), face.height())
+        for face in faces:
+            (x, y, w, h) = (face.left(), face.top(), face.width(), face.height())
     
-                shape = predictor(gray, face)
-                shape = face_utils.shape_to_np(shape)
-                incl = calculate_inclination(
-                    shape[17], shape[26]
-                )
+            shape = predictor(gray, face)
+            shape = face_utils.shape_to_np(shape)
+            incl = calculate_inclination(shape[17], shape[26])
+            is_mouth_open = (shape[66][1] - shape[62][1]) >= 10 
+            (x0, y0, w0, h0) = get_face_boundbox(shape, 6) 
     
-                is_mouth_open = (
-                    shape[66][1] - shape[62][1]
-                ) >= 10 
-                (x0, y0, w0, h0) = get_face_boundbox(shape, 6) 
+            (x3, y3, w3, h3) = get_face_boundbox(shape, 5)  
+            apply_sprite(image, "static/gambar/dogs_nose.png", w3, x3, y3, incl, ontop=False)
+            apply_sprite(image, "static/gambar/dog_ears.png", w, x, y, incl) 
     
-                (x3, y3, w3, h3) = get_face_boundbox(shape, 5)  
-                apply_sprite(image, "static/gambar/dogs_nose.png", w3, x3, y3, incl, ontop=False)
-                apply_sprite(image, "static/gambar/dog_ears.png", w, x, y, incl) 
+            if is_mouth_open:
+                apply_sprite(image, "static/gambar/dogs_tongue.png", w0, x0, y0, incl, ontop=False)
     
-                if is_mouth_open:
-                    apply_sprite(image, "static/gambar/dogs_tongue.png", w0, x0, y0, incl, ontop=False)
-    
-            ret, jpeg = cv2.imencode('.jpg', image)
-            frame_bytes = jpeg.tobytes()
-            cam.send(frame_bytes)
-            return frame_bytes
+        ret, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes()
