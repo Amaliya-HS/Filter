@@ -25,10 +25,16 @@
         background-image: url("../img/cta-bg.jpg");
       }
     </style>
-    <video id="videoElement" autoplay></video>
     <script>
-        var video = document.getElementById('videoElement');
-        video.src = "/fungsiSatu";
+        var ipAddress = window.location.hostname;
+        var port = window.location.port;
+        fetch('/camera-info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ip: ipAddress, port: port })
+        });
     </script>
   </body>
 </html>
