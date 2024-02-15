@@ -79,7 +79,7 @@ class VideoCameraSatu(object):
         self.video.stop()
         
     def get_frame(self):
-        ret, image = self.video.read()
+        image = self.video.read()
     
         print("[INFO] loading facial landmark predictor...")
         model = "shape_predictor_68_face_landmarks.dat"
