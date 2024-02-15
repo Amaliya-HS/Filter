@@ -25,10 +25,6 @@
         background-image: url("../img/cta-bg.jpg");
       }
     </style>
-    <video id="videoElement" autoplay></video>
-    <script>
-        var video = document.getElementById('videoElement');
-        video.src = "{{ url_for('fungsiSatu') }}";  // Update this line for different routes
-    </script>
+    <img src="{{ url_for('fungsiSatu') }}" alt="Webcam Feed">
   </body>
 </html>
