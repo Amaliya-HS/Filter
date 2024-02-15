@@ -5,6 +5,16 @@ from flask import Flask, render_template, Response
 
 app = Flask(__name__)
 
+@app.route('/camera-info', methods=['POST'])
+def receive_camera_info():
+    data = request.json
+    ip_address = data['ip']
+    port = data['port']
+    
+    camera_ip = "http://{}:{}".format(ip_address, port)
+
+    return camera_ip
+
 def genSatu(dogFilter_app):
     while True:
         frame = dogFilter_app.get_frame()
@@ -28,7 +38,8 @@ def genTiga(zoomIn_zoomOut_app):
         
 @app.route('/fungsiSatu')
 def video_feed1():
-    return Response(genSatu(VideoCameraSatu()),
+    ipnport= receive_camera_info()
+    return Response(genSatu(VideoCameraSatu(ipnport)),
         mimetype='multipart/x-mixed-replace; boundary=frame')   
 
 @app.route('/fungsiDua')
