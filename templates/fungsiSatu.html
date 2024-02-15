@@ -25,6 +25,10 @@
         background-image: url("../img/cta-bg.jpg");
       }
     </style>
-    <img id="bg" src="/fungsiSatu" />
+    <video id="videoElement" autoplay></video>
+    <script>
+        var video = document.getElementById('videoElement');
+        video.src = "{{ url_for('fungsiSatu') }}";  // Update this line for different routes
+    </script>
   </body>
 </html>
