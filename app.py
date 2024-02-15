@@ -5,22 +5,27 @@ from flask import Flask, render_template, Response, request
 
 app = Flask(__name__)
 
+camera_info = None
+
 @app.route('/camera-info', methods=['POST'])
 def receive_camera_info():
+    global camera_info
     data = request.json
     ip_address = data['ip']
     port = data['port']
     
-    camera_ip = "http://{}:{}".format(ip_address, port)
+    camera_info = "http://{}:{}".format(ip_address, port)
 
-    return camera_ip
+    return camera_info
 
-def genSatu(dogFilter_app):
-    while True:
-        frame = dogFilter_app.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n'+frame
-               +b'\r\n\r\n')
+def genSatu():
+    global camera_info
+    if camera_info:
+        camera = VideoCameraSatu(camera_info)
+        while True:
+            frame = camera.get_frame()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 def genDua(mataMulut_app):
     while True:
@@ -36,11 +41,9 @@ def genTiga(zoomIn_zoomOut_app):
                b'Content-Type: image/jpeg\r\n\r\n'+frame
                +b'\r\n\r\n')
         
-@app.route('/fungsiSatu')
+@app.route('/video_feed1')
 def video_feed1():
-    ipnport= receive_camera_info()
-    return Response(genSatu(VideoCameraSatu(ipnport)),
-        mimetype='multipart/x-mixed-replace; boundary=frame')   
+    return Response(genSatu(), mimetype='multipart/x-mixed-replace; boundary=frame')   
 
 @app.route('/fungsiDua')
 def video_feed2():
