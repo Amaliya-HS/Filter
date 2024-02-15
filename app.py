@@ -2,21 +2,19 @@ from dogFilter_app import VideoCameraSatu
 from mataMulut_app import VideoCameraDua
 from zoomIn_zoomOut_app import VideoCameraTiga
 from flask import Flask, render_template, Response, request
+from flask_cors import CORS
 
 app = Flask(__name__)
 
 camera_info = None
 
-@app.route('/camera-info', methods=['POST'])
-def receive_camera_info():
-    global camera_info
+@app.route('/camera-url', methods=['POST'])
+def get_camera_url():
     data = request.json
     ip_address = data['ip']
     port = data['port']
-    
-    camera_info = "http://{}:{}".format(ip_address, port)
-
-    return camera_info
+    camera_url = f"http://{ip_address}:{port}/fungsiSatu"
+    return camera_url
 
 def genSatu():
     global camera_info
@@ -83,6 +81,7 @@ def latihan():
 def tim():
     return render_template('team.html')
 
+CORS(app)
 
 #if __name__ == '__main__':
 #    app.run(debug=True, host='0.0.0.0')
