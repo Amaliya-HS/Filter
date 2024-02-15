@@ -13,7 +13,7 @@ def get_camera_url():
     data = request.json
     ip_address = data['ip']
     port = data['port']
-    camera_url = f"http://{ip_address}:{port}/fungsiSatu"
+    camera_url = f"http://{ip_address}:{port}/video_feed1"
     return camera_url
 
 def genSatu():
