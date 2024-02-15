@@ -10,6 +10,4 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN --privileged -d modprobe v4l2loopback
-
 CMD ["gunicorn", "app:app"]
