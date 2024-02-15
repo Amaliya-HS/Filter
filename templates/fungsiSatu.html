@@ -26,6 +26,13 @@
       }
     </style>
     <video autoplay="true" id="video-webcam"></video>
+    <script>
+        // Menampilkan informasi kamera pada halaman HTML
+        document.getElementById('camera-info').innerHTML = `
+            <p>Camera IP: {{ camera_ip }}</p>
+            <p>Camera Port: {{ camera_port }}</p>
+        `;
+    </script>
     <script type="text/javascript">
         var video = document.querySelector("#video-webcam");
 
