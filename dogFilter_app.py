@@ -72,11 +72,18 @@ def get_face_boundbox(points, face_part):
     return (x, y, w, h)
 
 class VideoCameraSatu(object):
-    def __init__(self, ip_camera):
-        self.video = VideoStream(src=ip_camera).start()
+    def __init__(self):
+        camera_ip = request.remote_addr
+        camera_port = request.environ.get('REMOTE_PORT')
+        
+        # Membuat URL kamera menggunakan alamat IP dan port
+        camera_url = f'http://{camera_ip}:{camera_port}/video_feed1'
+
+        # Memulai VideoStream dengan URL kamera
+        self.video = cv2.VideoCapture(camera_url)
 
     def __del__(self):
-        self.video.stop()
+        self.video.release()
         
     def get_frame(self):
         image = self.video.read()
