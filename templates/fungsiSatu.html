@@ -52,33 +52,6 @@
             );
         }
 
-        function handleVideo(stream) {
-            video.srcObject = stream;
-
-            // Dapatkan alamat IP dan port dari URL saat ini
-            var ipAddress = window.location.hostname;
-            var port = window.location.port;
-
-            // Kirim informasi alamat IP dan port ke server Flask
-            fetch('/camera-url', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ ip: ipAddress, port: port })
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Gunakan URL kamera yang diterima dari server Flask
-                var cameraUrl = data;
-                // Set sumber video dengan URL kamera
-                video.src = cameraUrl;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-
         function videoError(e) {
             alert("Izinkan menggunakan webcam untuk demo!");
         }
