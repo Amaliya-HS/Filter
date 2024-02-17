@@ -20,21 +20,6 @@
   </head>
   <body>
     <h1>Filter Dog Face</h1>
-    <img id="displayed-image" src="" alt="Displayed Image">
-    
-    <script>
-        // Ketika halaman dimuat, minta server Flask untuk mengirimkan gambar
-        window.onload = function() {
-            fetch('/fungsiSatu')  // Mengirim permintaan ke endpoint Flask
-                .then(response => response.blob())  // Mengambil respons sebagai blob
-                .then(blob => {
-                    // Mengubah blob menjadi URL gambar
-                    const imageUrl = URL.createObjectURL(blob);
-                    // Memuat URL gambar ke dalam elemen <img>
-                    document.getElementById('displayed-image').src = imageUrl;
-                })
-                .catch(error => console.error('Error fetching image:', error));
-        };
-    </script>
+    <img src="{{ url_for('video_feed') }}" alt="Video Feed">
   </body>
 </html>
