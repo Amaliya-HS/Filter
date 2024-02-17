@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import pyvirtualcam
 
 def lerp(a, b, c):
     return int((c * a) + ((1 - c) * b))
