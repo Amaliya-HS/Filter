@@ -45,8 +45,8 @@ def index1():
 
 @app.route('/fungsiSatu.html')
 def openkamera1():
-    gunicorn_ip = request.host.split(':')[0]
-    return render_template('fungsiSatu.html', ip=gunicorn_ip)
+    ip, port = get_ip_and_port()
+    return render_template('fungsiSatu.html', ip=ip, port=port)
 
 @app.route('/fungsiDua.html')
 def openkamera2():
