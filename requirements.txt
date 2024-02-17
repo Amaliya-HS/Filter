@@ -4,6 +4,5 @@ imutils
 numpy
 opencv-python-headless
 scipy
-pyvirtualcam
 gunicorn
 socket
