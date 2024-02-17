@@ -6,14 +6,6 @@ import socket
 
 app = Flask(__name__)
 
-def get_server_port():
-    # Mendapatkan port server Flask yang digunakan oleh Gunicorn
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(('localhost', 0))
-    _, port = sock.getsockname()
-    sock.close()
-    return port
-
 def genSatu(dogFilter_app):
     while True:
         frame = dogFilter_app.get_frame()
@@ -37,22 +29,22 @@ def genTiga(zoomIn_zoomOut_app):
         
 @app.route('/fungsiSatu')
 def video_feed1():
-    ip_address = socket.gethostbyname(socket.gethostname())  # Mendapatkan alamat IP server
-    port = get_server_port()  # Mendapatkan port server Flask
+    ip_address = request.host.split(':')[0]
+    port = request.host.split(':')[1]
     return Response(genSatu(VideoCameraSatu(ip_address, port)),
         mimetype='multipart/x-mixed-replace; boundary=frame')   
 
 @app.route('/fungsiDua')
 def video_feed2():
-    ip_address = socket.gethostbyname(socket.gethostname())  # Mendapatkan alamat IP server
-    port = get_server_port()  # Mendapatkan port server Flask
+    ip_address = request.host.split(':')[0]
+    port = request.host.split(':')[1]
     return Response(genDua(VideoCameraDua(ip_address, port)),
         mimetype='multipart/x-mixed-replace; boundary=frame')
     
 @app.route('/fungsiTiga')
 def video_feed3():
-    ip_address = socket.gethostbyname(socket.gethostname())  # Mendapatkan alamat IP server
-    port = get_server_port()  # Mendapatkan port server Flask
+    ip_address = request.host.split(':')[0]
+    port = request.host.split(':')[1]
     return Response(genTiga(VideoCameraTiga(ip_address, port)),
         mimetype='multipart/x-mixed-replace; boundary=frame')
 
