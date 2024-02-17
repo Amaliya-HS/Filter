@@ -39,6 +39,10 @@ def video_feed3():
 def index():
     return render_template('index.html')
 
+@app.route('/index.html')
+def index1():
+    return render_template('index.html')
+
 @app.route('/fungsiSatu.html')
 def openkamera1():
     ip_address, port = get_ip_and_port()
@@ -54,3 +58,10 @@ def openkamera3():
     ip_address, port = get_ip_and_port()
     return render_template('fungsiTiga.html', ip=ip_address, port=port)
 
+@app.route('/latihan.html')
+def latihan():
+    return render_template('latihan.html')
+
+@app.route('/team.html')
+def tim():
+    return render_template('team.html')
