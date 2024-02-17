@@ -37,7 +37,7 @@ def genTiga(zoomIn_zoomOut_app):
 @app.route('/video_feed1')
 def video_feed():
     global camera_ip, camera_port
-    return Response(gen(VideoCameraSatu(camera_ip, camera_port)),
+    return Response(genSatu(VideoCameraSatu(camera_ip, camera_port)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/fungsiDua')
