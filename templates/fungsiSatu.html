@@ -26,24 +26,16 @@
       }
     </style>
     <div>
-    <video autoplay="true" id="video-webcam">
-    </video>
-</div>
-<script type="text/javascript">
-    var video = document.querySelector("#video-webcam");
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+        <video autoplay="true" id="video-webcam">
+        </video>
+    </div>
+    <script type="text/javascript">
+        var video = document.querySelector("#video-webcam");
 
-    if (navigator.getUserMedia) {
-        navigator.getUserMedia({ video: true }, handleVideo, videoError);
-    }
-
-    function handleVideo(stream) {
-        video.srcObject = stream;
-    }
-
-    function videoError(e) {
-        alert("Izinkan menggunakan webcam untuk demo!");
-    }
-</script>
+        fetch('/video_feed1')
+        .then(response => response.body)
+        .then(stream => video.srcObject = stream)
+        .catch(err => console.error('Error getting media: ', err));
+    </script>
   </body>
 </html>
