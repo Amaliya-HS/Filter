@@ -2,7 +2,6 @@ import cv2
 import dlib
 from scipy.spatial import distance as dist
 from imutils import face_utils
-import pyvirtualcam
 
 model = "shape_predictor_68_face_landmarks.dat"
 predictor = dlib.shape_predictor(model)
