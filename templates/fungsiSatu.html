@@ -51,7 +51,7 @@
             alert("Izinkan menggunakan webcam untuk demo!");
         }
 
-        const serverAddress = {{ ip }} + ':' + {{ port }};
+        const serverAddress = '{{ ip }}' + ':' + '{{ port }}';
         const streamUrl1 = `https://${serverAddress}/fungsiSatu`;
         loadVideo(streamUrl1, 'video-feed-1');
     </script>
