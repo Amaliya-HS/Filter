@@ -1,8 +1,10 @@
 import numpy as np
 import cv2
 
+
 def lerp(a, b, c):
     return int((c * a) + ((1 - c) * b))
+
 
 def largestBox(boxes):
     lrg_width = 0
@@ -105,14 +107,14 @@ CASC_PATH = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(CASC_PATH)
 
 class VideoCameraTiga(object):
-    def __init__(self):
-        self.video = pyvirtualcam.Camera(width=640, height=480, fps=30)
+    def __init__(self, camera_ip, camera_port):
+        self.video = cv2.VideoCapture(f"http://{camera_ip}:{camera_port}/fungsiTiga")
         
     def __del__(self):
         self.video.release()
         
     def get_frame(self):
-        ret, img = self.video.read(return_rgb=True)
+        ret, img = self.video.read()
 
         box = BoundingBox(-1, -1, -1, -1)
 
