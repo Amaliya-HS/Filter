@@ -20,11 +20,6 @@
   </head>
   <body>
     <h1>Filter Dog Face</h1>
-    <style>
-      div {
-        background-image: url("../img/cta-bg.jpg");
-      }
-    </style>
     <div>
         <video id="video-feed-1" autoplay></video>
     </div>
@@ -34,8 +29,30 @@
             video.src = streamUrl;
         }
 
-        const serverAddress = '{{ ip }}' + ':' + '{{ port }}';
-        const streamUrl1 = `http://${serverAddress}/fungsiSatu`;
+      // Mendapatkan akses kamera pengguna jika didukung
+        navigator.getUserMedia = (navigator.getUserMedia ||
+                                  navigator.webkitGetUserMedia ||
+                                  navigator.mozGetUserMedia ||
+                                  navigator.msGetUserMedia ||
+                                  navigator.oGetUserMedia);
+
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({ video: true }, handleVideo, videoError);
+        } else {
+            alert('Browser tidak mendukung getUserMedia');
+        }
+
+        function handleVideo(stream) {
+            const video1 = document.getElementById('video-feed-1');
+            video1.srcObject = stream;
+        }
+
+        function videoError(e) {
+            alert("Izinkan menggunakan webcam untuk demo!");
+        }
+
+        const serverAddress = {{ ip }} + ':' + {{ port }};
+        const streamUrl1 = `https://${serverAddress}/fungsiSatu`;
         loadVideo(streamUrl1, 'video-feed-1');
     </script>
   </body>
