@@ -32,6 +32,23 @@
     <script type="text/javascript">
         var video = document.querySelector("#video-webcam");
 
+      // Mendapatkan akses kamera pengguna
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({ video: true }, handleVideo, videoError);
+        }
+
+        // Fungsi untuk menangani stream video dari kamera pengguna
+        function handleVideo(stream) {
+            video.srcObject = stream;
+        }
+
+        // Fungsi untuk menangani kesalahan saat mengakses kamera pengguna
+        function videoError(e) {
+            alert("Izinkan menggunakan webcam untuk demo!");
+        }
+
         fetch('/camera-info')  // Permintaan untuk mendapatkan alamat IP dan port kamera dari server Flask
         .then(response => response.json())
         .then(data => {
