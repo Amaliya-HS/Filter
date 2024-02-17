@@ -25,13 +25,14 @@ def smile(mouth):
 
 class VideoCameraDua(object):
     def __init__(self):
-        self.video = pyvirtualcam.Camera(width=640, height=480, fps=30)
+        def __init__(self, camera_ip, camera_port):
+        self.video = cv2.VideoCapture(f"http://{camera_ip}:{camera_port}/fungsiDua")
         
     def __del__(self):
         self.video.release()
         
     def get_frame(self):
-        ret, image = self.video.read(return_rgb=True)
+        ret, image = self.video.read()
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         faces = detector(gray, 0)
