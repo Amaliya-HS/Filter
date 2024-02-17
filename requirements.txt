@@ -6,4 +6,4 @@ opencv-python-headless
 scipy
 pyvirtualcam
 gunicorn
-flask_cors
+socket
