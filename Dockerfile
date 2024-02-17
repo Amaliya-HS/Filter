@@ -10,4 +10,4 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-CMD ["gunicorn", "app:app"]
+CMD ["gunicorn", "-c", "gunicorn.conf.py", "app:app"]
