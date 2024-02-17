@@ -20,38 +20,15 @@
   </head>
   <body>
     <h1>Filter Dog Face</h1>
-    <div>
-        <video id="video-feed-1" autoplay></video>
-    </div>
+    <img id="image-feed-1" />
     <script>
-        function loadVideo(streamUrl, videoElementId) {
-            const video = document.getElementById(videoElementId);
-            video.src = streamUrl;
+        function loadImage(imageUrl, imageElementId) {
+            const image = document.getElementById(imageElementId);
+            image.src = imageUrl;
         }
-        navigator.getUserMedia = (navigator.getUserMedia ||
-                                  navigator.webkitGetUserMedia ||
-                                  navigator.mozGetUserMedia ||
-                                  navigator.msGetUserMedia ||
-                                  navigator.oGetUserMedia);
-
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({ video: true }, handleVideo, videoError);
-        } else {
-            alert('Browser tidak mendukung getUserMedia');
-        }
-
-        function handleVideo(stream) {
-            const video1 = document.getElementById('video-feed-1');
-            video1.srcObject = stream;
-        }
-
-        function videoError(e) {
-            alert("Izinkan menggunakan webcam untuk demo!");
-        }
-
         const serverAddress = '{{ ip }}';
-        const streamUrl1 = `https://${serverAddress}/fungsiSatu`;
-        loadVideo(streamUrl1, 'video-feed-1');
+        const imageUrl1 = `https://${serverAddress}/fungsiSatu`;
+        loadImage(imageUrl1, 'image-feed-1');
     </script>
   </body>
 </html>
