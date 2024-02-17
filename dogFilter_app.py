@@ -80,7 +80,7 @@ class VideoCameraSatu(object):
         camera_url = f'http://{camera_ip}:{camera_port}/video_feed1'
 
         # Memulai VideoStream dengan URL kamera
-        self.video = cv2.VideoCapture(camera_url)
+        self.video = cv2.VideoCapture(0)
 
     def __del__(self):
         self.video.release()
