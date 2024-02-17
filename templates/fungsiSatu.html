@@ -26,7 +26,7 @@
             const image = document.getElementById(imageElementId);
             image.src = imageUrl;
         }
-        const serverAddress = '{{ ip }}';
+        const serverAddress = '{{ ip }}' + ':' + '{{ port }}';
         const imageUrl1 = `https://${serverAddress}/fungsiSatu`;
         loadImage(imageUrl1, 'image-feed-1');
     </script>
