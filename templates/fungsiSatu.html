@@ -25,15 +25,30 @@
         background-image: url("../img/cta-bg.jpg");
       }
     </style>
-    <video autoplay="true" id="video-stream"></video>
-    <script>
-        var video = document.getElementById('video-stream');
-        video.src = "/fungsiSatu";  // Endpoint untuk feed video dari Flask
+    <div>
+    <video autoplay="true" id="video-webcam"></video>
+    <img id="bg" src="/fungsiSatu" style="display: none;" /> <!-- Tambahkan gambar dengan style display none -->
+</div>
+<script type="text/javascript">
+    var video = document.querySelector("#video-webcam");
 
-        // Jika terjadi kesalahan saat memuat video
-        video.onerror = function() {
-            alert("Gagal memuat video. Pastikan server Flask berjalan dan dapat diakses.");
-        };
-    </script>
+    // Mendapatkan akses kamera pengguna
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+    if (navigator.getUserMedia) {
+        navigator.getUserMedia({ video: true }, handleVideo, videoError);
+    }
+
+    // Fungsi untuk menangani stream video dari kamera pengguna
+    function handleVideo(stream) {
+        video.srcObject = stream;
+        document.getElementById('bg').style.display = 'inline'; // Tampilkan gambar setelah mendapatkan akses ke kamera
+    }
+
+    // Fungsi untuk menangani kesalahan saat mengakses kamera pengguna
+    function videoError(e) {
+        alert("Izinkan menggunakan webcam untuk demo!");
+    }
+</script>
   </body>
 </html>
