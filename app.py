@@ -45,18 +45,18 @@ def index1():
 
 @app.route('/fungsiSatu.html')
 def openkamera1():
-    ip_address, port = get_ip_and_port()
-    return render_template('fungsiSatu.html', ip=ip_address, port=port)
+    gunicorn_ip = request.host.split(':')[0]
+    return render_template('fungsiSatu.html', ip=gunicorn_ip)
 
 @app.route('/fungsiDua.html')
 def openkamera2():
-    ip_address, port = get_ip_and_port()
-    return render_template('fungsiDua.html', ip=ip_address, port=port)
+    gunicorn_ip = request.host.split(':')[0]
+    return render_template('fungsiDua.html', ip=gunicorn_ip)
 
 @app.route('/fungsiTiga.html')
 def openkamera3():
-    ip_address, port = get_ip_and_port()
-    return render_template('fungsiTiga.html', ip=ip_address, port=port)
+    gunicorn_ip = request.host.split(':')[0]
+    return render_template('fungsiTiga.html', ip=gunicorn_ip)
 
 @app.route('/latihan.html')
 def latihan():
