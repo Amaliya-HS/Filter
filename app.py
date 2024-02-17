@@ -44,12 +44,16 @@ def video_feed1():
 
 @app.route('/fungsiDua')
 def video_feed2():
-    return Response(genDua(VideoCameraDua()),
+    ip_address = socket.gethostbyname(socket.gethostname())  # Mendapatkan alamat IP server
+    port = get_server_port()  # Mendapatkan port server Flask
+    return Response(genDua(VideoCameraDua(ip_address, port)),
         mimetype='multipart/x-mixed-replace; boundary=frame')
     
 @app.route('/fungsiTiga')
 def video_feed3():
-    return Response(genTiga(VideoCameraTiga()),
+    ip_address = socket.gethostbyname(socket.gethostname())  # Mendapatkan alamat IP server
+    port = get_server_port()  # Mendapatkan port server Flask
+    return Response(genTiga(VideoCameraTiga(ip_address, port)),
         mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
