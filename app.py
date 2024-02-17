@@ -1,7 +1,7 @@
 from dogFilter_app import VideoCameraSatu
 from mataMulut_app import VideoCameraDua
 from zoomIn_zoomOut_app import VideoCameraTiga
-from flask import Flask, render_template, Response, jsonify
+from flask import Flask, render_template, Response, request
 import socket
 
 app = Flask(__name__)
