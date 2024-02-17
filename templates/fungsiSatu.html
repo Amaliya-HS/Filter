@@ -25,43 +25,15 @@
         background-image: url("../img/cta-bg.jpg");
       }
     </style>
-    <div>
-        <video autoplay="true" id="video-webcam">
-        </video>
-    </div>
-    <script type="text/javascript">
-        var video = document.querySelector("#video-webcam");
+    <img id="video-stream" src="" alt="Video Stream" />
+    <script>
+        var video = document.getElementById('video-stream');
+        video.src = "/fungsiSatu";  // Endpoint untuk feed video dari Flask
 
-      // Mendapatkan akses kamera pengguna
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({ video: true }, handleVideo, videoError);
-        }
-
-        // Fungsi untuk menangani stream video dari kamera pengguna
-        function handleVideo(stream) {
-            video.srcObject = stream;
-        }
-
-        // Fungsi untuk menangani kesalahan saat mengakses kamera pengguna
-        function videoError(e) {
-            alert("Izinkan menggunakan webcam untuk demo!");
-        }
-
-        fetch('/camera-info')  // Permintaan untuk mendapatkan alamat IP dan port kamera dari server Flask
-        .then(response => response.json())
-        .then(data => {
-            var camera_ip = data.ip;
-            var camera_port = data.port;
-            var camera_url = `http://${camera_ip}:${camera_port}/video_feed1`;  // URL untuk feed video dari kamera
-
-            fetch(camera_url)  // Permintaan untuk feed video dari kamera
-            .then(response => response.body)
-            .then(stream => video.srcObject = stream)
-            .catch(err => console.error('Error getting media: ', err));
-        })
-        .catch(err => console.error('Error getting camera info: ', err));
+        // Jika terjadi kesalahan saat memuat video
+        video.onerror = function() {
+            alert("Gagal memuat video. Pastikan server Flask berjalan dan dapat diakses.");
+        };
     </script>
   </body>
 </html>
