@@ -32,10 +32,19 @@
     <script type="text/javascript">
         var video = document.querySelector("#video-webcam");
 
-        fetch('/video_feed1')
-        .then(response => response.body)
-        .then(stream => video.srcObject = stream)
-        .catch(err => console.error('Error getting media: ', err));
+        fetch('/camera-info')  // Permintaan untuk mendapatkan alamat IP dan port kamera dari server Flask
+        .then(response => response.json())
+        .then(data => {
+            var camera_ip = data.ip;
+            var camera_port = data.port;
+            var camera_url = `http://${camera_ip}:${camera_port}/video_feed1`;  // URL untuk feed video dari kamera
+
+            fetch(camera_url)  // Permintaan untuk feed video dari kamera
+            .then(response => response.body)
+            .then(stream => video.srcObject = stream)
+            .catch(err => console.error('Error getting media: ', err));
+        })
+        .catch(err => console.error('Error getting camera info: ', err));
     </script>
   </body>
 </html>
