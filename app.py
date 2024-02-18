@@ -11,28 +11,30 @@ def genFrame(video_camera):
         if frame is None:
             continue
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n'+frame
+               +b'\r\n\r\n')
 
-def get_ip_and_port():
-    ip = "0.0.0.0"
-    port = request.environ['SERVER_PORT']
-    return ip, port
+@app.route('/camera-url', methods=['POST'])
+def receive_camera_url():
+    data = request.json
+    camera_url = data.get('cameraUrl')
+    return camera_url
 
 @app.route('/fungsiSatu')
 def video_feed1():
-    gunicorn_ip = request.host.split(':')[0]
+    gunicorn_ip = receive_camera_url()
     return Response(genFrame(VideoCameraSatu(gunicorn_ip)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')   
 
 @app.route('/fungsiDua')
 def video_feed2():
-    gunicorn_ip = request.host.split(':')[0]
+    gunicorn_ip = receive_camera_url()
     return Response(genFrame(VideoCameraDua(gunicorn_ip)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
     
 @app.route('/fungsiTiga')
 def video_feed3():
-    gunicorn_ip = request.host.split(':')[0]
+    gunicorn_ip = receive_camera_url()
     return Response(genFrame(VideoCameraTiga(gunicorn_ip)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
