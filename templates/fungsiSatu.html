@@ -28,42 +28,47 @@
                                  navigator.msGetUserMedia ||
                                  navigator.oGetUserMedia;
 
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({ video: true }, function(stream) {
-                var video = document.getElementById('video');
-                video.srcObject = stream;
-
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-
-                function sendVideoFrame() {
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    var dataUrl = canvas.toDataURL('image/jpeg');
-
-                    fetch('/receive-video', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/octet-stream'
-                        },
-                        body: dataUrl.split(',')[1]
-                    }).then(function(response) {
+            if (navigator.getUserMedia) {
+        navigator.getUserMedia({ video: true }, function(stream) {
+            var video = document.getElementById('video');
+            video.srcObject = stream;
+    
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+    
+            function sendVideoFrame() {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                var dataUrl = canvas.toDataURL('image/jpeg');
+    
+                fetch('/receive-video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/octet-stream'
+                    },
+                    body: dataUrl.split(',')[1]
+                }).then(function(response) {
+                    if (response.status === 200) {
                         console.log(response);
-                    }).catch(function(error) {
-                        console.error(error);
-                    });
-
-                    requestAnimationFrame(sendVideoFrame);
-                }
-
+                        video.src = "https://{{ ip }}/fungsiSatu";
+                    } else {
+                        console.error('Gagal mengirim video frame:', response.statusText);
+                    }
+                }).catch(function(error) {
+                    console.error('Gagal mengirim video frame:', error);
+                });
+    
                 requestAnimationFrame(sendVideoFrame);
-            }, function(error) {
-                console.error('Izinkan menggunakan webcam untuk demo:', error);
-            });
-        } else {
-            console.error('getUserMedia tidak didukung di browser ini');
-        }
+            }
+    
+            requestAnimationFrame(sendVideoFrame);
+        }, function(error) {
+            console.error('Izinkan menggunakan webcam untuk demo:', error);
+        });
+    } else {
+        console.error('getUserMedia tidak didukung di browser ini');
+    }
     </script>
   </body>
 </html>
