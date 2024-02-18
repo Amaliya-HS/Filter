@@ -1,4 +1,4 @@
-from dogFilter_app import process_image()
+from dogFilter_app import process_image
 from flask import Flask, render_template, Response, request, jsonify
 
 app = Flask(__name__)
