@@ -28,19 +28,9 @@
         video.srcObject = stream;
     }, function(error) {
         console.error('Izinkan menggunakan webcam untuk demo:', error);
-    });
-      
-      function displayProcessedImage(processedImage) {
-        var canvas = document.createElement('canvas');
-        var context = canvas.getContext('2d');
-        var video = document.getElementById('video-webcam');
-        video.srcObject = null;
-        canvas.width = processedImage[0].length;
-        canvas.height = processedImage.length;
-        context.putImageData(new ImageData(Uint8ClampedArray.from(processedImage.flat()), canvas.width, canvas.height), 0, 0);
-        video.src = canvas.toDataURL();
-    }
+    }); 
 
+    // Fungsi untuk mengirim data gambar ke Flask
     function sendDataToFlask(imageData) {
         fetch('/process-image', {
             method: 'POST',
@@ -67,7 +57,17 @@
             sendDataToFlask(imageData);  // Kirim data gambar ke Flask
         }, 1000 / 30); // Ambil gambar setiap 1/30 detik
     });
-    
+
+      function displayProcessedImage(processedImage) {
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        var video = document.getElementById('video-webcam');
+        video.srcObject = null;
+        canvas.width = processedImage[0].length;
+        canvas.height = processedImage.length;
+        context.putImageData(new ImageData(Uint8ClampedArray.from(processedImage.flat()), canvas.width, canvas.height), 0, 0);
+        video.src = canvas.toDataURL();
+    }
     </script>
   </body>
 </html>
