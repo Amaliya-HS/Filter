@@ -6,16 +6,17 @@ app = Flask(__name__)
 @app.route('/process-image', methods=['POST'])
 def process_image_route():
     # Terima data gambar dari klien
-    image_data = request.data
+    image_data = request.data.decode('utf-8')
 
     # Proses gambar
     processed_image = process_image(image_data)
 
     # Konversi gambar yang diproses ke format yang bisa dikirim melalui JSON
-    processed_image_list = processed_image.tolist()
+    _, img_encoded = cv2.imencode('.jpg', processed_image)
+    img_bytes = base64.b64encode(img_encoded).decode('utf-8')
 
     # Kirim gambar yang diproses sebagai respons JSON
-    return jsonify({'processed_image': processed_image_list})
+    return jsonify({'processed_image': img_bytes})
 
 @app.route('/')
 def index():
