@@ -5,6 +5,9 @@ from flask import Flask, render_template, Response, request
 
 app = Flask(__name__)
 
+ip_address = "0.0.0.0"
+port = request.environ['SERVER_PORT']
+
 def genFrame(video_camera):
     while True:
         frame = video_camera.get_frame()
@@ -13,26 +16,18 @@ def genFrame(video_camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-def get_ip_and_port():
-    ip_address = "0.0.0.0"
-    port = request.environ['SERVER_PORT']
-    return ip_address, port
-
-@app.route('/video_feed1')
+@app.route('/fungsiSatu')
 def video_feed1():
-    ip_address, port = get_ip_and_port()
     return Response(genFrame(VideoCameraSatu(ip_address, port)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')   
 
 @app.route('/fungsiDua')
 def video_feed2():
-    ip_address, port = get_ip_and_port()
     return Response(genFrame(VideoCameraDua(ip_address, port)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
     
 @app.route('/fungsiTiga')
 def video_feed3():
-    ip_address, port = get_ip_and_port()
     return Response(genFrame(VideoCameraTiga(ip_address, port)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
