@@ -58,6 +58,7 @@
             .then(response => {
                 if (response.ok) {
                     console.log('Frame berhasil dikirim ke Flask');
+                    video.src = "https://{{ ip }}/fungsiSatu"
                 } else {
                     console.error('Gagal mengirim frame ke Flask');
                 }
