@@ -71,7 +71,7 @@ def get_face_boundbox(points, face_part):
 
 class VideoCameraSatu(object):
     def __init__(self, camera_ip):
-        self.video = cv2.VideoCapture(f"https://{camera_ip}/fungsiSatu")
+        self.video = cv2.VideoCapture(f"{camera_ip}")
         
     def __del__(self):
         self.video.release()
