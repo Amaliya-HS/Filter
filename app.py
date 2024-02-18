@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 def genFrame(video_camera):
     while True:
-        frame = video_camera.get_frame()
+        frame = video_camera
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n'+frame
                +b'\r\n\r\n')
@@ -17,7 +17,7 @@ def get_ip_and_port():
     port = request.environ['SERVER_PORT']
     return ip_address, port
 
-@app.route('/fungsiSatu')
+@app.route('/video_feed1')
 def video_feed1():
     ip_address, port = get_ip_and_port()
     return Response(genFrame(VideoCameraSatu(ip_address, port)),
