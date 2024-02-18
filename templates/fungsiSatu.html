@@ -22,14 +22,6 @@
     <h1>Filter Dog Face</h1>
     <video id="video-webcam" autoplay></video>
     <script>
-    // Mendapatkan akses kamera pengguna
-    navigator.getUserMedia({ video: true }, function(stream) {
-        var video = document.getElementById('video-webcam');
-        video.srcObject = stream;
-    }, function(error) {
-        console.error('Izinkan menggunakan webcam untuk demo:', error);
-    }); 
-
     // Fungsi untuk mengirim data gambar ke Flask
     function sendDataToFlask(imageData) {
         fetch('/process-image', {
@@ -44,41 +36,25 @@
             console.error('Error:', error);
         });
     }
-
-          // Mengambil gambar dari video dan mengirimkannya ke Flask setiap detik
-      var video = document.getElementById('video-webcam');
-      var canvas = document.createElement('canvas');
-      var context = canvas.getContext('2d');
-      
-      video.addEventListener('play', function() {
-          setInterval(function() {
-              context.drawImage(video, 0, 0, canvas.width, canvas.height);
-              var imageData = canvas.toDataURL('image/jpeg', 0.5).split(',')[1]; // Ubah kualitas gambar menjadi 0.5 (opsional)
-              sendDataToFlask(imageData);  // Kirim data gambar ke Flask
-          }, 2000); // Ambil gambar setiap 2 detik
-      });
-
-      function displayProcessedImage(processedImage) {
-        var canvas = document.createElement('canvas');
-        var context = canvas.getContext('2d');
+    
+    // Mengambil gambar dari video dan mengirimkannya ke Flask setiap detik
+    var video = document.getElementById('video-webcam');
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    
+    video.addEventListener('play', function() {
+        setInterval(function() {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            var imageData = canvas.toDataURL('image/jpeg', 0.5).split(',')[1]; // Ubah kualitas gambar menjadi 0.5 (opsional)
+            sendDataToFlask(imageData);  // Kirim data gambar ke Flask
+        }, 2000); // Ambil gambar setiap 2 detik
+    });
+    
+    // Fungsi untuk menampilkan gambar yang diproses kembali di video
+    function displayProcessedImage(processedImage) {
         var video = document.getElementById('video-webcam');
-        
-        video.srcObject = null;
-        // Mengatur ukuran canvas sesuai dengan dimensi gambar yang diproses
-        canvas.width = processedImage[0].length;
-        canvas.height = processedImage.length;
-        
-        // Menggambar gambar yang diproses ke dalam canvas
-        context.putImageData(new ImageData(Uint8ClampedArray.from(processedImage.flat()), canvas.width, canvas.height), 0, 0);
-        
-        // Mengubah gambar yang diproses menjadi blob
-        canvas.toBlob(function(blob) {
-            // Membuat blob URL dari gambar yang diproses
-            var blobUrl = URL.createObjectURL(blob);
-            // Mengatur blob URL sebagai sumber video
-            video.src = blobUrl;
-        }, 'image/jpeg'); // Ubah 'image/jpeg' sesuai dengan format gambar yang Anda proses
-      }
+        video.src = 'data:image/jpeg;base64,' + processedImage;
+    }
     </script>
   </body>
 </html>
