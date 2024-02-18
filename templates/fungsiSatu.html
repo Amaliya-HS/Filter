@@ -22,6 +22,14 @@
     <h1>Filter Dog Face</h1>
     <video id="video-webcam" autoplay></video>
     <script>
+    // Mendapatkan akses kamera pengguna
+    navigator.getUserMedia({ video: true }, function(stream) {
+        var video = document.getElementById('video-webcam');
+        video.srcObject = stream;
+    }, function(error) {
+        console.error('Izinkan menggunakan webcam untuk demo:', error);
+    }); 
+      
     // Fungsi untuk mengirim data gambar ke Flask
     function sendDataToFlask(imageData) {
         fetch('/process-image', {
