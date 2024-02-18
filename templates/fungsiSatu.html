@@ -62,12 +62,23 @@
         var canvas = document.createElement('canvas');
         var context = canvas.getContext('2d');
         var video = document.getElementById('video-webcam');
-        video.srcObject = null;
+        
+        // Mengatur ukuran canvas sesuai dengan dimensi gambar yang diproses
         canvas.width = processedImage[0].length;
         canvas.height = processedImage.length;
+        
+        // Menggambar gambar yang diproses ke dalam canvas
         context.putImageData(new ImageData(Uint8ClampedArray.from(processedImage.flat()), canvas.width, canvas.height), 0, 0);
-        video.src = canvas.toDataURL();
-    }
+        
+        // Mengubah gambar yang diproses menjadi blob
+        canvas.toBlob(function(blob) {
+            // Membuat blob URL dari gambar yang diproses
+            var blobUrl = URL.createObjectURL(blob);
+            
+            // Mengatur blob URL sebagai sumber video
+            video.src = blobUrl;
+        }, 'image/jpeg'); // Ubah 'image/jpeg' sesuai dengan format gambar yang Anda proses
+      }
     </script>
   </body>
 </html>
