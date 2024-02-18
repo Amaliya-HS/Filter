@@ -1,17 +1,22 @@
-from dogFilter_app import get_frame
+from dogFilter_app import process_image()
 from flask import Flask, render_template, Response, request, jsonify
 import cv2
 import numpy as np
 
 app = Flask(__name__)
 
-@app.route('/filter-one', methods=['POST'])
-def process_filter_one():
-    image_data = request.get_data()
-    image_array = np.frombuffer(image_data, dtype=np.uint8)
-    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-    processed_image = get_frame(image)
+@app.route('/process-image', methods=['POST'])
+def process_image_route():
+    # Terima data gambar dari klien
+    image_data = request.data
+
+    # Proses gambar
+    processed_image = process_image(image_data)
+
+    # Konversi gambar yang diproses ke format yang bisa dikirim melalui JSON
     processed_image_list = processed_image.tolist()
+
+    # Kirim gambar yang diproses sebagai respons JSON
     return jsonify({'processed_image': processed_image_list})
 
 @app.route('/')
