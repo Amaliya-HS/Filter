@@ -99,4 +99,7 @@ def process_image(image_data):
 
         if is_mouth_open:
             apply_sprite(image, "static/gambar/dogs_tongue.png", w0, x0, y0, incl, ontop=False)
-    return image
+
+    _, img_encoded = cv2.imencode('.jpg', gray_image)
+    img_bytes = base64.b64encode(img_encoded).decode('utf-8')    
+    return img_bytes
