@@ -7,7 +7,9 @@ app = Flask(__name__)
 
 def genFrame(video_camera):
     while True:
-        frame = video_camera
+        frame = video_camera.get_frame()
+        if frame is None:
+            continue
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
