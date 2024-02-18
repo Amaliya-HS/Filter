@@ -13,12 +13,8 @@ def process_image_route():
     # Proses gambar
     processed_image = process_image(image_data)
 
-    # Konversi gambar yang diproses ke format yang bisa dikirim melalui JSON
-    _, img_encoded = cv2.imencode('.jpg', processed_image)
-    img_bytes = base64.b64encode(img_encoded).decode('utf-8')
-
     # Kirim gambar yang diproses sebagai respons JSON
-    return jsonify({'processed_image': img_bytes})
+    return jsonify({'processed_image': processed_image})
 
 @app.route('/')
 def index():
