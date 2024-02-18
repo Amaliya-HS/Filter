@@ -69,7 +69,10 @@ def get_face_boundbox(points, face_part):
         (x, y, w, h) = calculate_boundbox(points[48:68])
     return (x, y, w, h)
         
-def get_frame(image):
+def process_image(image_data):
+    # Ubah data gambar menjadi format yang dapat diproses oleh OpenCV
+    image_array = np.frombuffer(image_data, dtype=np.uint8)
+    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
     print("[INFO] loading facial landmark predictor...")
     model = "shape_predictor_68_face_landmarks.dat"
     predictor = dlib.shape_predictor(model)
