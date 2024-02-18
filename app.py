@@ -14,7 +14,7 @@ def genFrame(video_camera):
                b'Content-Type: image/jpeg\r\n\r\n'+frame
                +b'\r\n\r\n')
 
-@app.route('/camera-url', methods=['POST'])
+@app.route('/receive-video', methods=['POST'])
 def receive_camera_url():
     video_data = request.data
     temp_file_path = tempfile.NamedTemporaryFile(delete=False)
