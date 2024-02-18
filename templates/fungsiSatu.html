@@ -45,18 +45,18 @@
         });
     }
 
-    // Mengambil gambar dari video dan mengirimkannya ke Flask setiap detik
-    var video = document.getElementById('video-webcam');
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-
-    video.addEventListener('play', function() {
-        setInterval(function() {
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            var imageData = canvas.toDataURL('image/jpeg').split(',')[1]; // Ambil data gambar dari canvas
-            sendDataToFlask(imageData);  // Kirim data gambar ke Flask
-        }, 1000 / 30); // Ambil gambar setiap 1/30 detik
-    });
+          // Mengambil gambar dari video dan mengirimkannya ke Flask setiap detik
+      var video = document.getElementById('video-webcam');
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      
+      video.addEventListener('play', function() {
+          setInterval(function() {
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+              var imageData = canvas.toDataURL('image/jpeg', 0.5).split(',')[1]; // Ubah kualitas gambar menjadi 0.5 (opsional)
+              sendDataToFlask(imageData);  // Kirim data gambar ke Flask
+          }, 2000); // Ambil gambar setiap 2 detik
+      });
 
       function displayProcessedImage(processedImage) {
         var canvas = document.createElement('canvas');
