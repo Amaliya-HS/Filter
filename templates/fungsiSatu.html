@@ -42,7 +42,7 @@
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                 var dataUrl = canvas.toDataURL('image/jpeg');
     
-                fetch('/receive-video', {
+                fetch('/camera-url', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/octet-stream'
