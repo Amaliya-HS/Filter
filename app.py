@@ -16,9 +16,11 @@ def genFrame(video_camera):
 
 @app.route('/camera-url', methods=['POST'])
 def receive_camera_url():
-    data = request.json
-    camera_url = data.get('cameraUrl')
-    return camera_url
+    video_data = request.data
+    temp_file_path = tempfile.NamedTemporaryFile(delete=False)
+    with open(temp_file_path.name, 'wb') as temp_file:
+        temp_file.write(video_data)
+    return temp_file_path.name
 
 @app.route('/fungsiSatu')
 def video_feed1():
