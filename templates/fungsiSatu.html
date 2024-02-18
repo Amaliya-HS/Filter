@@ -61,7 +61,26 @@
     // Fungsi untuk menampilkan gambar yang diproses kembali di video
     function displayProcessedImage(processedImage) {
         var video = document.getElementById('video-webcam');
-        video.srcObject = 'data:image/jpeg;base64,' + processedImage;
+        if ('srcObject' in video) {
+        video.srcObject = null; // Hentikan stream yang ada (jika ada)
+        video.src = 'data:image/jpeg;base64,' + processedImage;
+        } else {
+        // Jika browser tidak mendukung srcObject, gunakan URL.createObjectURL
+        var mediaSource = new MediaSource();
+        video.src = URL.createObjectURL(mediaSource);
+        mediaSource.addEventListener('sourceopen', function() {
+            var mediaSourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+            fetch(videoSrc).then(function(response) {
+                return response.arrayBuffer();
+            }).then(function(buffer) {
+                mediaSourceBuffer.addEventListener('updateend', function() {
+                    mediaSource.endOfStream();
+                    video.play();
+                });
+                mediaSourceBuffer.appendBuffer(buffer);
+            });
+        });
+    }
     }
     </script>
   </body>
