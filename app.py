@@ -1,7 +1,5 @@
 from dogFilter_app import process_image()
 from flask import Flask, render_template, Response, request, jsonify
-import cv2
-import numpy as np
 
 app = Flask(__name__)
 
