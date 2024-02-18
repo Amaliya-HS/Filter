@@ -20,20 +20,20 @@ def get_ip_and_port():
 
 @app.route('/fungsiSatu')
 def video_feed1():
-    ip_address, port = get_ip_and_port()
-    return Response(genFrame(VideoCameraSatu(ip_address, port)),
+    gunicorn_ip = request.host.split(':')[0]
+    return Response(genFrame(VideoCameraSatu(gunicorn_ip)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')   
 
 @app.route('/fungsiDua')
 def video_feed2():
-    ip_address, port = get_ip_and_port()
-    return Response(genFrame(VideoCameraDua(ip_address, port)),
+    gunicorn_ip = request.host.split(':')[0]
+    return Response(genFrame(VideoCameraDua(gunicorn_ip)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
     
 @app.route('/fungsiTiga')
 def video_feed3():
-    ip_address, port = get_ip_and_port()
-    return Response(genFrame(VideoCameraTiga(ip_address, port)),
+    gunicorn_ip = request.host.split(':')[0]
+    return Response(genFrame(VideoCameraTiga(gunicorn_ip)),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
