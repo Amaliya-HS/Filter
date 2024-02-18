@@ -20,46 +20,50 @@
   </head>
   <body>
     <h1>Filter Dog Face</h1>
-    <video id="camera-stream" autoplay></video>
+    <video id="video" autoplay></video>
     <script>
-      var video = document.querySelector("#camera-stream");
-    
-      // Mendapatkan akses kamera pengguna
-      navigator.getUserMedia = (navigator.getUserMedia ||
-                                navigator.webkitGetUserMedia ||
-                                navigator.mozGetUserMedia ||
-                                navigator.msGetUserMedia ||
-                                navigator.oGetUserMedia);
-                                
-      if (navigator.getUserMedia) {
-          navigator.getUserMedia({ video: true }, function(stream) {
-              // Mendapatkan URL stream kamera
-              video.srcObject = stream;
-    
-              var cameraUrl = window.URL.createObjectURL(stream);
-              
-              // Mengirim URL kamera ke Flask
-              fetch('/camera-url', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ cameraUrl: cameraUrl })
-              })
-              .then(response => {
-                  if (response.status === 200) {
-                      video.src = "https://{{ ip }}/fungsiSatu";
-                  } else {
-                      console.error('Gagal mengirim URL kamera:', response.status);
-                  }
-              })
-              .catch(error => console.error('Gagal mengirim URL kamera:', error));
-          }, function(error) {
-              console.error('Izinkan menggunakan webcam untuk demo:', error);
-          });
-      } else {
-          console.error('getUserMedia tidak didukung di browser ini');
-      }
+        navigator.getUserMedia = navigator.getUserMedia ||
+                                 navigator.webkitGetUserMedia ||
+                                 navigator.mozGetUserMedia ||
+                                 navigator.msGetUserMedia ||
+                                 navigator.oGetUserMedia;
+
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({ video: true }, function(stream) {
+                var video = document.getElementById('video');
+                video.srcObject = stream;
+
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+
+                function sendVideoFrame() {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    var dataUrl = canvas.toDataURL('image/jpeg');
+
+                    fetch('/receive-video', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/octet-stream'
+                        },
+                        body: dataUrl.split(',')[1]
+                    }).then(function(response) {
+                        console.log(response);
+                    }).catch(function(error) {
+                        console.error(error);
+                    });
+
+                    requestAnimationFrame(sendVideoFrame);
+                }
+
+                requestAnimationFrame(sendVideoFrame);
+            }, function(error) {
+                console.error('Izinkan menggunakan webcam untuk demo:', error);
+            });
+        } else {
+            console.error('getUserMedia tidak didukung di browser ini');
+        }
     </script>
   </body>
 </html>
