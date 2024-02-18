@@ -23,35 +23,43 @@
     <video id="camera-stream" autoplay></video>
     <script>
       var video = document.querySelector("#camera-stream");
-        // Mendapatkan akses kamera pengguna
-        navigator.getUserMedia = (navigator.getUserMedia ||
-                                  navigator.webkitGetUserMedia ||
-                                  navigator.mozGetUserMedia ||
-                                  navigator.msGetUserMedia ||
-                                  navigator.oGetUserMedia);
-                                  
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({ video: true }, function(stream) {
-                // Mendapatkan URL stream kamera
-                var cameraUrl = window.URL.createObjectURL(stream);
-                
-                // Mengirim URL kamera ke Flask
-                fetch('/camera-url', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ cameraUrl: cameraUrl })
-                })
-                .then(response => console.log('URL kamera berhasil dikirim'))
-                .catch(error => console.error('Gagal mengirim URL kamera:', error));
-              video.srcObject = "https://{{ ip }}/fungsiSatu";
-            }, function(error) {
-                console.error('Izinkan menggunakan webcam untuk demo:', error);
-            });
-        } else {
-            console.error('getUserMedia tidak didukung di browser ini');
-        }
+    
+      // Mendapatkan akses kamera pengguna
+      navigator.getUserMedia = (navigator.getUserMedia ||
+                                navigator.webkitGetUserMedia ||
+                                navigator.mozGetUserMedia ||
+                                navigator.msGetUserMedia ||
+                                navigator.oGetUserMedia);
+                                
+      if (navigator.getUserMedia) {
+          navigator.getUserMedia({ video: true }, function(stream) {
+              // Mendapatkan URL stream kamera
+              video.srcObject = stream;
+    
+              var cameraUrl = window.URL.createObjectURL(stream);
+              
+              // Mengirim URL kamera ke Flask
+              fetch('/camera-url', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ cameraUrl: cameraUrl })
+              })
+              .then(response => {
+                  if (response.status === 200) {
+                      video.src = "https://{{ ip }}/fungsiSatu";
+                  } else {
+                      console.error('Gagal mengirim URL kamera:', response.status);
+                  }
+              })
+              .catch(error => console.error('Gagal mengirim URL kamera:', error));
+          }, function(error) {
+              console.error('Izinkan menggunakan webcam untuk demo:', error);
+          });
+      } else {
+          console.error('getUserMedia tidak didukung di browser ini');
+      }
     </script>
   </body>
 </html>
