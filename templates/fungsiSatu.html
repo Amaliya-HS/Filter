@@ -60,6 +60,7 @@
     
     // Fungsi untuk menampilkan gambar yang diproses kembali di video
     function displayProcessedImage(processedImage) {
+        video.srcObject = null;
         var video = document.getElementById('video-webcam');
         video.src = 'data:image/jpeg;base64,' + processedImage;
     }
