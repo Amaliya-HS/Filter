@@ -1,6 +1,7 @@
 import cv2
 import math
 import dlib
+import numpy as np
 from imutils import face_utils, rotate_bound
 
 def draw_sprite(frame, sprite, x_offset, y_offset):
