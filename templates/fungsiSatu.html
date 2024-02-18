@@ -61,10 +61,7 @@
     // Fungsi untuk menampilkan gambar yang diproses kembali di video
     function displayProcessedImage(processedImage) {
         var video = document.getElementById('video-webcam');
-        if ('srcObject' in video) {
-        video.srcObject = null; // Hentikan stream yang ada (jika ada)
         video.src = 'data:image/jpeg;base64,' + processedImage;
-        } 
     }
     </script>
   </body>
