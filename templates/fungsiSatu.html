@@ -22,51 +22,47 @@
     <h1>Filter Dog Face</h1>
     <video id="video-webcam" autoplay></video>
     <script>
-        navigator.getUserMedia = (navigator.getUserMedia ||
-                                  navigator.webkitGetUserMedia ||
-                                  navigator.mozGetUserMedia ||
-                                  navigator.msGetUserMedia ||
-                                  navigator.oGetUserMedia);
-                                  
-        if (navigator.getUserMedia) {
             navigator.getUserMedia({ video: true }, function(stream) {
-                var video = document.getElementById('video-webcam');
-                video.srcObject = stream;
-            }, function(error) {
-                console.error('Izinkan menggunakan webcam untuk demo:', error);
-            });
-        } else {
-            console.error('getUserMedia tidak didukung di browser ini');
-        }
-
-        function sendFrame() {
-            var video = document.getElementById('video-webcam');
+        var video = document.getElementById('video-webcam');
+        video.srcObject = stream;
+        video.addEventListener('play', function() {
             var canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            var dataURL = canvas.toDataURL('image/jpeg');
-
-            fetch('/send-frame', {
-                method: 'POST',
-                body: JSON.stringify({ frame: dataURL }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Frame berhasil dikirim ke Flask');
-                    video.src = "https://{{ ip }}/fungsiSatu"
-                } else {
-                    console.error('Gagal mengirim frame ke Flask');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
+            var context = canvas.getContext('2d');
+            setInterval(function() {
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                sendDataToFlask(imageData);
+            }, 1000 / 30);
+        });
+    }, function(error) {
+        console.error('Izinkan menggunakan webcam untuk demo:', error);
+    }); 
+    function sendDataToFlask(imageData) {
+        fetch('/filter-one', {
+            method: 'POST',
+            body: JSON.stringify({ imageData: imageData }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            var processedImage = data.processedImage;
+            displayProcessedImage(processedImage);
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    }
+    function displayProcessedImage(processedImage) {
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        var video = document.getElementById('video-webcam');
+        video.srcObject = null;
+        canvas.width = processedImage[0].length;
+        canvas.height = processedImage.length;
+        context.putImageData(new ImageData(Uint8ClampedArray.from(processedImage.flat()), canvas.width, canvas.height), 0, 0);
+        video.src = canvas.toDataURL();
+    }
     </script>
   </body>
 </html>
