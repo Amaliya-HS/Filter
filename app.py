@@ -9,8 +9,7 @@ def genFrame(video_camera):
     while True:
         frame = video_camera
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n'+frame
-               +b'\r\n\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 def get_ip_and_port():
     ip_address = "0.0.0.0"
