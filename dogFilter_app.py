@@ -68,46 +68,30 @@ def get_face_boundbox(points, face_part):
     elif face_part == 6:
         (x, y, w, h) = calculate_boundbox(points[48:68])
     return (x, y, w, h)
-
-class VideoCameraSatu(object):
-    def __init__(self, camera_ip):
-        self.video = cv2.VideoCapture(f"{camera_ip}")
         
-    def __del__(self):
-        self.video.release()
-        
-    def get_frame(self):
-        ret, image = self.video.read()
+def get_frame(image):
+    print("[INFO] loading facial landmark predictor...")
+    model = "shape_predictor_68_face_landmarks.dat"
+    predictor = dlib.shape_predictor(model)
 
-        print("[INFO] loading facial landmark predictor...")
-        model = "shape_predictor_68_face_landmarks.dat"
-        predictor = dlib.shape_predictor(model)
-
-        detector = dlib.get_frontal_face_detector()
+    detector = dlib.get_frontal_face_detector()
             
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        faces = detector(gray, 0)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    faces = detector(gray, 0)
 
-        for face in faces:
-            (x, y, w, h) = (face.left(), face.top(), face.width(), face.height())
+    for face in faces:
+        (x, y, w, h) = (face.left(), face.top(), face.width(), face.height())
 
-            shape = predictor(gray, face)
-            shape = face_utils.shape_to_np(shape)
-            incl = calculate_inclination(
-                shape[17], shape[26]
-            )
+        shape = predictor(gray, face)
+        shape = face_utils.shape_to_np(shape)
+        incl = calculate_inclination(shape[17], shape[26])
 
-            is_mouth_open = (
-                shape[66][1] - shape[62][1]
-            ) >= 10 
-            (x0, y0, w0, h0) = get_face_boundbox(shape, 6) 
+        is_mouth_open = (shape[66][1] - shape[62][1]) >= 10 
+        (x0, y0, w0, h0) = get_face_boundbox(shape, 6) 
+        (x3, y3, w3, h3) = get_face_boundbox(shape, 5)  
+        apply_sprite(image, "static/gambar/dogs_nose.png", w3, x3, y3, incl, ontop=False)
+        apply_sprite(image, "static/gambar/dog_ears.png", w, x, y, incl) 
 
-            (x3, y3, w3, h3) = get_face_boundbox(shape, 5)  
-            apply_sprite(image, "static/gambar/dogs_nose.png", w3, x3, y3, incl, ontop=False)
-            apply_sprite(image, "static/gambar/dog_ears.png", w, x, y, incl) 
-
-            if is_mouth_open:
-                apply_sprite(image, "static/gambar/dogs_tongue.png", w0, x0, y0, incl, ontop=False)
-
-        ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
+        if is_mouth_open:
+            apply_sprite(image, "static/gambar/dogs_tongue.png", w0, x0, y0, incl, ontop=False)
+    return image
