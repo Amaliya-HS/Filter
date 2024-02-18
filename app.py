@@ -14,25 +14,6 @@ def genFrame(video_camera):
                b'Content-Type: image/jpeg\r\n\r\n'+frame
                +b'\r\n\r\n')
 
-
-Tidak, frame data yang diterima dari <canvas> dan dikirim ke Flask dalam bentuk data URL (base64) tidak dapat langsung digunakan sebagai parameter untuk cv2.VideoCapture. Anda perlu mengonversi data URL kembali menjadi gambar atau video yang dapat diproses oleh OpenCV.
-
-Berikut adalah langkah-langkah untuk mengonversi data URL kembali menjadi gambar yang dapat digunakan dengan OpenCV:
-
-Di Flask, terima data URL, lalu lakukan dekoding base64 dan simpan gambar ke file sementara.
-Gunakan file gambar tersebut sebagai input untuk cv2.VideoCapture.
-Berikut adalah contoh implementasinya:
-
-python
-Copy code
-from flask import Flask, request
-import base64
-import cv2
-import numpy as np
-import os
-
-app = Flask(__name__)
-
 @app.route('/send-frame', methods=['POST'])
 def receive_camera_url():
     frame_data = request.json['frame']
