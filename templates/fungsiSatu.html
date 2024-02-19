@@ -25,17 +25,21 @@
         background-image: url("../static/assets/img/cta-bg.jpg");
       }
     </style>
-    <video id="video-webcam" autoplay></video>
+    <video id="video-webcam" autoplay src = {{ url_for('video_feed1') }}></video>
     <script>
       // Mendapatkan akses kamera pengguna
       navigator.getUserMedia({ video: true }, function(stream) {
           var video = document.getElementById('video-webcam');
           video.srcObject = stream;
           video.srcObject = null;
-          video.src = {{ url_for('video_feed1') }}
       }, function(error) {
           console.error('Izinkan menggunakan webcam untuk demo:', error);
       });
+      // Tindakan setelah memuat video
+      document.getElementById('video-webcam').onloadedmetadata = function() {
+        console.log('Video loaded');
+        // Lakukan sesuatu setelah video dimuat, jika perlu
+      };
     </script>
   </body>
 </html>
