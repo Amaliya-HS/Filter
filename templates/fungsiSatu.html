@@ -26,5 +26,14 @@
       }
     </style>
     <video id="video-webcam" autoplay src = "{{ url_for('video_feed1') }}"></video>
+    <script>
+      // Mendapatkan akses kamera pengguna
+      navigator.getUserMedia({ video: true }, function(stream) {
+          var video = document.getElementById('video-webcam');
+          video.srcObject = stream;
+      }, function(error) {
+          console.error('Izinkan menggunakan webcam untuk demo:', error);
+      });
+    </script>
   </body>
 </html>
