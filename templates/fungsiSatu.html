@@ -32,7 +32,7 @@
           var video = document.getElementById('video-webcam');
           video.srcObject = stream;
           video.srcObject = null;
-          vide.src = {{ url_for('video_feed1') }}
+          video.src = {{ url_for('video_feed1') }}
       }, function(error) {
           console.error('Izinkan menggunakan webcam untuk demo:', error);
       });
