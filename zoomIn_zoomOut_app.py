@@ -107,8 +107,8 @@ CASC_PATH = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(CASC_PATH)
 
 class VideoCameraTiga(object):
-    def __init__(self, camera_ip, camera_port):
-        self.video = cv2.VideoCapture(f"http://{camera_ip}:{camera_port}/fungsiTiga")
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
         
     def __del__(self):
         self.video.release()
