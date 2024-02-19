@@ -20,49 +20,11 @@
   </head>
   <body>
     <h1>Filter Dog Face</h1>
-    <video id="video-webcam" autoplay></video>
-    <script>
-    // Mendapatkan akses kamera pengguna
-    navigator.getUserMedia({ video: true }, function(stream) {
-        var video = document.getElementById('video-webcam');
-        video.srcObject = stream;
-    }, function(error) {
-        console.error('Izinkan menggunakan webcam untuk demo:', error);
-    }); 
-      
-    // Fungsi untuk mengirim data gambar ke Flask
-    function sendDataToFlask(imageData) {
-        fetch('/process-image', {
-            method: 'POST',
-            body: imageData
-        }).then(function(response) {
-            return response.json();
-        }).then(function(data) {
-            var processedImage = data.processedImage;
-            displayProcessedImage(processedImage);
-        }).catch(function(error) {
-            console.error('Error:', error);
-        });
-    }
-    
-    // Mengambil gambar dari video dan mengirimkannya ke Flask setiap detik
-    var video = document.getElementById('video-webcam');
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-    
-    video.addEventListener('play', function() {
-        setInterval(function() {
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            var imageData = canvas.toDataURL('image/jpeg', 0.5).split(',')[1]; // Ubah kualitas gambar menjadi 0.5 (opsional)
-            sendDataToFlask(imageData);  // Kirim data gambar ke Flask
-        }, 2000); // Ambil gambar setiap 2 detik
-    });
-    
-    // Fungsi untuk menampilkan gambar yang diproses kembali di video
-    function displayProcessedImage(processedImage) {
-        var video = document.getElementById('video-webcam');
-        video.src = 'data:image/jpeg;base64,' + processedImage;
-    }
-    </script>
+    <style>
+      div {
+        background-image: url("../img/cta-bg.jpg");
+      }
+    </style>
+    <img id="bg" src="{{url_for('video_feed1')}}" />
   </body>
 </html>
