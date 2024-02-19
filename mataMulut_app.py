@@ -24,8 +24,8 @@ def smile(mouth):
     return mar
 
 class VideoCameraDua(object):
-    def __init__(self, camera_ip, camera_port):
-        self.video = cv2.VideoCapture(f"http://{camera_ip}:{camera_port}")
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
         
     def __del__(self):
         self.video.release()
