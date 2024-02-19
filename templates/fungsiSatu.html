@@ -25,13 +25,13 @@
         background-image: url("../static/assets/img/cta-bg.jpg");
       }
     </style>
-    <video id="video-webcam" autoplay }}></video>
+    <video id="video-webcam" autoplay></video>
     <script>
       // Mendapatkan akses kamera pengguna
       navigator.getUserMedia({ video: true }, function(stream) {
           var video = document.getElementById('video-webcam');
           video.srcObject = stream;
-          video.src = {{ url_for('video_feed1')
+          video.src = {{ url_for('video_feed1' }})
       }, function(error) {
           console.error('Izinkan menggunakan webcam untuk demo:', error);
       });
