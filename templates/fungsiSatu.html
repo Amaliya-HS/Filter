@@ -34,8 +34,10 @@
       }, function(error) {
           console.error('Izinkan menggunakan webcam untuk demo:', error);
       });
+    
       document.getElementById('video-webcam').onloadedmetadata = function() {
-        video.src = {{ url_for('video_feed1') }};
+        var video = document.getElementById('video-webcam');
+        video.src = "{{ url_for('video_feed1') }}";
       };
     </script>
   </body>
