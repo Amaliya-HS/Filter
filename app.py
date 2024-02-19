@@ -11,10 +11,9 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-@app.route('/fungsiSatu')
-def video_feed1():
-    gunicorn_ip = request.host.split(':')[0]
-    return Response(gen(VideoCameraSatu(f"https://{gunicorn_ip}/fungsiSatu.html")), mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(VideoCameraSatu()), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/fungsiDua')
 def video_feed2():
