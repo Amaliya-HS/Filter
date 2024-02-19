@@ -27,6 +27,10 @@ def video_feed3():
 def index():
     return render_template('index.html')
 
+@app.route('/index.html')
+def index1():
+    return render_template('index.html')
+
 @app.route('/fungsiSatu.html')
 def fungsiSatu():
     return render_template('fungsiSatu.html')
@@ -38,3 +42,11 @@ def fungsiDua():
 @app.route('/fungsiTiga.html')
 def fungsiTiga():
     return render_template('fungsiTiga.html')
+
+@app.route('/latihan.html')
+def latihan():
+    return render_template('latihan.html')
+
+@app.route('/team.html')
+def tim():
+    return render_template('team.html')
