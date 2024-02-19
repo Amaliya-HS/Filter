@@ -31,14 +31,11 @@
       navigator.getUserMedia({ video: true }, function(stream) {
           var video = document.getElementById('video-webcam');
           video.srcObject = stream;
-          video.src = {{ url_for('video_feed1') }};
       }, function(error) {
           console.error('Izinkan menggunakan webcam untuk demo:', error);
       });
-      // Tindakan setelah memuat video
       document.getElementById('video-webcam').onloadedmetadata = function() {
-        console.log('Video loaded');
-        // Lakukan sesuatu setelah video dimuat, jika perlu
+        video.src = {{ url_for('video_feed1') }};
       };
     </script>
   </body>
