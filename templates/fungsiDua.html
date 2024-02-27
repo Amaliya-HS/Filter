@@ -20,40 +20,6 @@
   </head>
   <body>
     <h1>Filter Mata Mulut</h1>
-    <video autoplay="true" id="video-webcam"></video>
-    <img id="bg"/>
-
-    <script type="text/javascript">
-    var video = document.querySelector("#video-webcam");
-
-    // Mendapatkan akses kamera pengguna
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-
-    if (navigator.getUserMedia) {
-        navigator.getUserMedia({ video: true }, handleVideo, videoError);
-    }
-
-    // Fungsi untuk menangani stream video dari kamera pengguna
-    function handleVideo(stream) {
-        video.srcObject = stream;
-
-        // Jeda sebentar untuk memastikan video telah dimuat
-        setTimeout(function() {
-            // Mengirim alamat URL kamera ke server Flask
-            fetch('/fungsiDua')
-            .then(response => response.json())
-            .then(data => {
-                var camera_url = data.camera_url;
-                document.querySelector("#bg").src = camera_url;
-            })
-            .catch(err => console.error('Error getting camera URL: ', err));
-        }, 1000); // Ganti nilai 1000 dengan nilai yang sesuai
-    }
-
-    // Fungsi untuk menangani kesalahan saat mengakses kamera pengguna
-    function videoError(e) {
-        alert("Izinkan menggunakan webcam untuk demo!");
-    }
-    </script>
+    <img id="bg" src="/fungsiDua" />
   </body>
 </html>
