@@ -1,7 +1,7 @@
 # Three FILTER
 These 3 filters contain **Dog Filter**, **Eye - Mouth Filter**, **Zoom Filter** <br>
 ## Dog Filter
-This feature uses the Dlib model to detect the location of the face and will display images of the ears, nose and tongue (when opening the mouth) and place them according to the coordinates of the ears, nose and middle of the mouth when opening.
+This feature uses the Dlib model to detect the location of the face and will display images of the ears, nose and tongue (when opening the mouth) and place them according to the coordinates of the head, nose and middle of the mouth when opening.
 This is what it looks like:
 ![Cuplikan layar 2024-02-27 142521](https://github.com/Amaliya-HS/Filter/assets/147327011/aeb606bc-9d4c-40b8-abd2-18e4561a3116)
 <br>
